@@ -6,24 +6,23 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainWindow extends JFrame {
+    private ConfigurationHandler conf;
 
-    public MainWindow(){
+    public MainWindow(ConfigurationHandler conf){
+        this.conf = conf;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("TV-Ratings");
         this.setSize(1200, 900);
         ImageIcon tb = new ImageIcon("tb_logo.png");
         this.setIconImage(tb.getImage());
-        //frame.setResizable(false);
-        //frame.getContentPane().setBackground(new Color(94, 97, 95));
         this.setLayout(new BorderLayout());//default
         ImageIcon reload = new ImageIcon("reload_25x25.png");
 
 
         JPanel buttonPanel = new JPanel();
         JPanel chartArea = new JPanel();
-//        buttonPanel.setBounds(0, 0, 800, 30);//needed when setting layoutmanager to null
-//        chartArea.setBounds(0, 30, 800, 400);
+
         buttonPanel.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, 30 ));
         chartArea.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, 600 ));
 
@@ -56,7 +55,6 @@ public class MainWindow extends JFrame {
         AtomicBoolean toggle3 = new AtomicBoolean(true);
 
         btn1.addActionListener(e -> {
-            //JOptionPane.showConfirmDialog(frame,"Fuck you", "Message from your mother", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             ChartPanel topRatings = LineChartHandler.getStrongestDaysRT(DataFiller.getDaysFromAllFiles(), toggle1.get());
             toggle1.set(!toggle1.get());
             chartArea.removeAll();
@@ -95,7 +93,7 @@ public class MainWindow extends JFrame {
         });
         btn5.addActionListener(e -> {
             try {
-                DataFiller.initDataFromFiles();
+                DataFiller.initDataFromFiles(conf.getDataPath());
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
