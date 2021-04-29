@@ -16,7 +16,18 @@ public class DataFiller{
 
     private static List<MonthRecord> monthlyRatings;
     private static List<DayRecord> daysFromAllFiles;
-    private static String dirName = "C:/temp/bench/";
+
+    public static void initDataFromFiles(String dirName) throws IOException {
+        monthlyRatings = new ArrayList<>();
+        daysFromAllFiles = new ArrayList<>();
+
+        Files.list(new File(dirName).toPath())
+                .forEach(path -> {
+                    List<DayRecord> days = DataFiller.getRecordsFromFile(path.toFile());
+                    daysFromAllFiles.addAll(days);
+                    monthlyRatings.add(DataFiller.getMonthlyRatings(days));
+                });
+    }
 
     public static List<DayRecord> getRecordsFromFile(File file){
         List<DayRecord> records = new ArrayList<>();
@@ -62,21 +73,6 @@ public class DataFiller{
         String dateString = days.get(0).getDay();
 
         return new MonthRecord(dateString, avgDayRatings);
-    }
-
-    public static void initDataFromFiles() throws IOException {
-        monthlyRatings = new ArrayList<>();
-        daysFromAllFiles = new ArrayList<>();
-
-        Files.list(new File(dirName).toPath())
-                .forEach(path -> {
-                    List<DayRecord> days = DataFiller.getRecordsFromFile(path.toFile());
-                    daysFromAllFiles.addAll(days);
-                    monthlyRatings.add(DataFiller.getMonthlyRatings(days));
-
-                    RatingsCalculator ratingsCalculator = new RatingsCalculator();
-                    ratingsCalculator.showRatings(days);
-                });
     }
 
 
