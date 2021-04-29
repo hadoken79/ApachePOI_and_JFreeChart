@@ -8,7 +8,6 @@ public class MonthRecord {
     private String month;
 
 
-
     private int monthNumber;
     private int year;
     private int avgNrwt;
