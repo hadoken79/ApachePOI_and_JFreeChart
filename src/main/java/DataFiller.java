@@ -67,12 +67,20 @@ public class DataFiller{
     }
 
     public static MonthRecord getMonthlyRatings(List<DayRecord> days){
+        //average ratings for month
         double avgDayRatings = days.stream()
                 .mapToInt(d -> d.getNrwt()).average().getAsDouble();
+        //average marketshare for month
+        double avgDayMa = days.stream()
+                .mapToDouble(d -> d.getMa()).average().getAsDouble();
+        //average viewtime for month
+        double avgDayVd = days.stream()
+                .mapToDouble(d -> d.getVd()).average().getAsDouble();
 
         String dateString = days.get(0).getDay();
+        //ToDo add params for avgMA and avgVD
 
-        return new MonthRecord(dateString, avgDayRatings);
+        return new MonthRecord(dateString, avgDayRatings, avgDayMa, avgDayVd);
     }
 
 

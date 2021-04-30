@@ -11,8 +11,11 @@ public class MonthRecord {
     private int monthNumber;
     private int year;
     private int avgNrwt;
+    private double avgMa;
+    private double avgVd;
 
-    public MonthRecord(String dateString, double avgNrwt) {
+    public MonthRecord(String dateString, double avgNrwt, double avgMa, double avgVd) {
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate localDate = LocalDate.parse(dateString, formatter);
 
@@ -20,6 +23,8 @@ public class MonthRecord {
         this.monthNumber = localDate.getMonthValue();
         this.year = localDate.getYear();
         this.avgNrwt = (int)Math.round(avgNrwt);
+        this.avgMa = avgMa;
+        this.avgVd = avgVd;
     }
 
     public String getMonth() {
@@ -37,6 +42,10 @@ public class MonthRecord {
     public int getMonthNumber() {
         return monthNumber;
     }
+
+    public double getAvgMa() { return avgMa; }
+
+    public double getAvgVd() { return avgVd; }
 
 
 

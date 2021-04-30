@@ -9,17 +9,19 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LineChartHandler {
+//Todo add method getAvgMaChart and getAvgVdChart
 
-    public static ChartPanel getRatingsChart(List<MonthRecord> monthlyRatings){
+    //-------------------Month-Charts
+    public static ChartPanel getAvgRatingsChart(List<MonthRecord> monthlyRatings){
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
 
         //populate data
         monthlyRatings.stream()
                 .sorted(Comparator.comparing(MonthRecord::getMonthNumber))
+                .sorted(Comparator.comparing(MonthRecord::getYear))
                 .forEach(monthlyRating -> {
                     objDataset.setValue(monthlyRating.getAvgNrwt(), String.valueOf(monthlyRating.getYear()), monthlyRating.getMonth());
                 });
-
 
         //draw linechart
         // TODO: 4/22/2021 validate, if record empty, and then initialize default params
@@ -40,6 +42,71 @@ public class LineChartHandler {
         return frame.getChartPanel();
     }
 
+    public static ChartPanel getAvgMaChart(List<MonthRecord> monthlyRatings){
+        DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
+
+        //populate data
+        monthlyRatings.stream()
+                .sorted(Comparator.comparing(MonthRecord::getMonthNumber))
+                .sorted(Comparator.comparing(MonthRecord::getYear))
+                .forEach(monthlyRating -> {
+                    objDataset.setValue(monthlyRating.getAvgMa(), String.valueOf(monthlyRating.getYear()), monthlyRating.getMonth());
+                });
+
+        //draw linechart
+        // TODO: 4/22/2021 validate, if record empty, and then initialize default params
+        JFreeChart objChart = ChartFactory.createBarChart(
+                "Marktanteil",     //Chart title
+                "Tagesdurchschnitt",     //Domain axis label
+                "Marktanteil CH-D",         //Range axis label
+                objDataset,         //Chart Data
+                PlotOrientation.VERTICAL, // orientation
+                true,             // include legend?
+                true,             // include tooltips?
+                false // include URLs?
+        );
+
+        ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+
+
+        return frame.getChartPanel();
+    }
+
+    public static ChartPanel getAvgVdChart(List<MonthRecord> monthlyRatings){
+        DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
+
+        //populate data
+        monthlyRatings.stream()
+                .sorted(Comparator.comparing(MonthRecord::getMonthNumber))
+                .sorted(Comparator.comparing(MonthRecord::getYear))
+                .forEach(monthlyRating -> {
+                    objDataset.setValue(monthlyRating.getAvgVd(), String.valueOf(monthlyRating.getYear()), monthlyRating.getMonth());
+                });
+
+        //draw linechart
+        // TODO: 4/22/2021 validate, if record empty, and then initialize default params
+        JFreeChart objChart = ChartFactory.createBarChart(
+                "Verweildauer",     //Chart title
+                "Tagesdurchschnitt",     //Domain axis label
+                "Verweildauer CH-D",         //Range axis label
+                objDataset,         //Chart Data
+                PlotOrientation.VERTICAL, // orientation
+                true,             // include legend?
+                true,             // include tooltips?
+                false // include URLs?
+        );
+
+        ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+
+
+        return frame.getChartPanel();
+    }
+
+
+
+
+
+    //-------------------Day-Charts
     public static ChartPanel getStrongestDaysRT(List<DayRecord> allRatings, boolean desc){
 
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
