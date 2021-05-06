@@ -6,7 +6,7 @@ import java.util.Properties;
 public class ReadExcelData {
 
     public static void main(String[] args) {
-        ConfigurationHandler conf = new ConfigurationHandler();
+        ConfigurationHandler conf = new ConfigurationHandler("config.properties");
 
 
         new MainWindow(conf);

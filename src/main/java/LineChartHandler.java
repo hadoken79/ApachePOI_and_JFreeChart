@@ -2,9 +2,13 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -96,7 +100,9 @@ public class LineChartHandler {
                 false // include URLs?
         );
 
+
         ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+
 
 
         return frame.getChartPanel();

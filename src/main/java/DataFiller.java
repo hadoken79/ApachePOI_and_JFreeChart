@@ -7,6 +7,7 @@ import org.jfree.data.time.Day;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -23,14 +24,21 @@ public class DataFiller{
 
         Files.list(new File(dirName).toPath())
                 .forEach(path -> {
-                    List<DayRecord> days = DataFiller.getRecordsFromFile(path.toFile());
+                    List<DayRecord> days = null;
+                    try {
+                        days = DataFiller.getRecordsFromFile(path.toFile());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     daysFromAllFiles.addAll(days);
                     monthlyRatings.add(DataFiller.getMonthlyRatings(days));
                 });
     }
 
-    public static List<DayRecord> getRecordsFromFile(File file){
+    public static List<DayRecord> getRecordsFromFile(File file) throws FileNotFoundException {
         List<DayRecord> records = new ArrayList<>();
+
+        if(!file.canWrite())throw new FileNotFoundException();
 
         try(Workbook workbook = new XSSFWorkbook(file);) {
             Sheet sheet =  workbook.getSheetAt(1);//Einzeltage D-CH

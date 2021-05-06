@@ -5,8 +5,8 @@ import java.util.Properties;
 public class ConfigurationHandler {
     private Properties prop;
 
-    public ConfigurationHandler(){
-        try (InputStream input = ReadExcelData.class.getClassLoader().getResourceAsStream("config.properties")) {
+    public ConfigurationHandler(String filePath){
+        try (InputStream input = ReadExcelData.class.getClassLoader().getResourceAsStream(filePath)) {
 
            prop = new Properties();
 
