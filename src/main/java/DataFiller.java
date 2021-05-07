@@ -3,11 +3,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.jfree.data.time.Day;
-
-import javax.swing.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,23 +15,27 @@ public class DataFiller{
     private static List<MonthRecord> monthlyRatings;
     private static List<DayRecord> daysFromAllFiles;
 
-    public static void initDataFromFiles(String dirName) throws IOException {
+    public static void initDataFromFiles(String dirName) throws IOException, InvalidFormatException {
         monthlyRatings = new ArrayList<>();
         daysFromAllFiles = new ArrayList<>();
 
-        Files.list(new File(dirName).toPath())
-                .forEach(path -> {
-                    List<DayRecord> days = DataFiller.getRecordsFromFile(path.toFile());
+            Files.list(new File(dirName).toPath())
+                    .forEach(path -> {
 
-                    daysFromAllFiles.addAll(days);
-                    monthlyRatings.add(DataFiller.getMonthlyRatings(days));
-                });
+                        List<DayRecord> days = null;
+
+                        try {
+                            days = DataFiller.getRecordsFromFile(path.toFile());
+                            daysFromAllFiles.addAll(days);
+                            monthlyRatings.add(DataFiller.getMonthlyRatings(days));
+                        } catch (IOException | InvalidFormatException e) {
+                            throw new RuntimeException(e.getMessage());
+                        }
+                    });
     }
 
-    public static List<DayRecord> getRecordsFromFile(File file){
+    public static List<DayRecord> getRecordsFromFile(File file) throws IOException, InvalidFormatException {
         List<DayRecord> records = new ArrayList<>();
-
-        //if(!file.canWrite())throw new IOException("file in use?");
 
         try(Workbook workbook = new XSSFWorkbook(file);) {
             Sheet sheet =  workbook.getSheetAt(1);//Einzeltage D-CH
@@ -58,7 +58,7 @@ public class DataFiller{
             }
 
         } catch (IOException | InvalidFormatException e) {
-            e.printStackTrace();
+            throw e;
         }
         return records;
     }

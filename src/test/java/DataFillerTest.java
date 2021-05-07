@@ -1,3 +1,4 @@
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DataFillerTest {
 
     @Test
-    void dataFillergetRecords_shouldGenerateAsManyDayrecordsAsDataCollumnsInFile() throws IOException {
+    void dataFillergetRecords_shouldGenerateAsManyDayrecordsAsDataCollumnsInFile() throws IOException, InvalidFormatException {
         //given
         int dataCollumnsInTestFile = 31;
 
@@ -23,7 +24,7 @@ class DataFillerTest {
     }
 
     @Test
-    void dataFillergetRecords_DayRatingElementsShould_beCorrectDataTypes() throws IOException {
+    void dataFillergetRecords_DayRatingElementsShould_beCorrectDataTypes() throws Exception {
         //given
         String firstDateElement = "01.03.2021";
         int firstRTElement = 74;
@@ -57,7 +58,7 @@ class DataFillerTest {
         Executable executable = () -> DataFiller.getRecordsFromFile(testFile);
 
         //then
-        assertThrows(FileNotFoundException.class, executable);
+        assertThrows(IOException.class, executable);
 
     }
 

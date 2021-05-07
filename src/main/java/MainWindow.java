@@ -123,7 +123,6 @@ public class MainWindow extends JFrame {
             } catch (Exception ex){
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "File in use?", JOptionPane.ERROR_MESSAGE);
             }
-
         });
 
         buttonPanel.add(btn1);
