@@ -13,10 +13,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LineChartHandler {
-//Todo add method getAvgMaChart and getAvgVdChart
 
     //-------------------Month-Charts
     public static ChartPanel getAvgRatingsChart(List<MonthRecord> monthlyRatings){
+
+        if(monthlyRatings == null){
+            return errorChart();
+        }
+
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
 
         //populate data
@@ -47,6 +51,11 @@ public class LineChartHandler {
     }
 
     public static ChartPanel getAvgMaChart(List<MonthRecord> monthlyRatings){
+
+        if(monthlyRatings == null){
+            return errorChart();
+        }
+
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
 
         //populate data
@@ -77,6 +86,11 @@ public class LineChartHandler {
     }
 
     public static ChartPanel getAvgVdChart(List<MonthRecord> monthlyRatings){
+
+        if(monthlyRatings == null){
+            return errorChart();
+        }
+
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
 
         //populate data
@@ -114,6 +128,10 @@ public class LineChartHandler {
 
     //-------------------Day-Charts
     public static ChartPanel getStrongestDaysRT(List<DayRecord> allRatings, boolean desc){
+
+        if(allRatings == null){
+            return errorChart();
+        }
 
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
         ChartFrame frame;
@@ -170,6 +188,11 @@ public class LineChartHandler {
     }
 
     public static ChartPanel getStrongestDaysMA(List<DayRecord> allRatings, boolean desc){
+
+        if(allRatings == null){
+            return errorChart();
+        }
+
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
         ChartFrame frame;
 
@@ -226,6 +249,11 @@ public class LineChartHandler {
     }
 
     public static ChartPanel getStrongestDaysVD(List<DayRecord> allRatings, boolean desc){
+
+        if(allRatings == null){
+            return errorChart();
+        }
+
         DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
         ChartFrame frame;
 
@@ -278,6 +306,27 @@ public class LineChartHandler {
             frame = new ChartFrame("Telebasel Quoten", objChart);
         }
 
+        return frame.getChartPanel();
+    }
+
+    private static ChartPanel errorChart(){
+        DefaultCategoryDataset objDataset = new DefaultCategoryDataset();//JFreeChartElement
+        ChartFrame frame;
+
+        objDataset.setValue(0, "Keine Daten", "Keine Daten");
+
+        JFreeChart objChart = ChartFactory.createBarChart(
+                "Keine Daten!!!!",     //Chart title
+                "Tag",     //Domain axis label
+                "VD CH-D",         //Range axis label
+                objDataset,         //Chart Data
+                PlotOrientation.HORIZONTAL, // orientation
+                true,             // include legend?
+                true,             // include tooltips?
+                false // include URLs?
+        );
+
+        frame = new ChartFrame("Telebasel Quoten", objChart);
         return frame.getChartPanel();
     }
 }

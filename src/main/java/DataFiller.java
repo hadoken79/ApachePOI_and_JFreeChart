@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.data.time.Day;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,21 +25,17 @@ public class DataFiller{
 
         Files.list(new File(dirName).toPath())
                 .forEach(path -> {
-                    List<DayRecord> days = null;
-                    try {
-                        days = DataFiller.getRecordsFromFile(path.toFile());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    List<DayRecord> days = DataFiller.getRecordsFromFile(path.toFile());
+
                     daysFromAllFiles.addAll(days);
                     monthlyRatings.add(DataFiller.getMonthlyRatings(days));
                 });
     }
 
-    public static List<DayRecord> getRecordsFromFile(File file) throws FileNotFoundException {
+    public static List<DayRecord> getRecordsFromFile(File file){
         List<DayRecord> records = new ArrayList<>();
 
-        if(!file.canWrite())throw new FileNotFoundException();
+        //if(!file.canWrite())throw new IOException("file in use?");
 
         try(Workbook workbook = new XSSFWorkbook(file);) {
             Sheet sheet =  workbook.getSheetAt(1);//Einzeltage D-CH
@@ -63,14 +60,6 @@ public class DataFiller{
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
-        //        for (Cell cell : nrwtRow) {
-//            if(cell.getCellType() == CellType.NUMERIC)
-//            System.out.println(cell.getNumericCellValue());
-//        }
-//
-//        double firstData = nrwt.getCell(1).getNumericCellValue();
-//        System.out.println(firstData);
-
         return records;
     }
 

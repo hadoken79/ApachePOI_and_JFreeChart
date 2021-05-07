@@ -3,6 +3,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DataFillerTest {
 
     @Test
-    void dataFillergetRecords_shouldGenerateAsManyDayrecordsAsDataCollumnsInFile() throws FileNotFoundException {
+    void dataFillergetRecords_shouldGenerateAsManyDayrecordsAsDataCollumnsInFile() throws IOException {
         //given
         int dataCollumnsInTestFile = 31;
 
@@ -22,7 +23,7 @@ class DataFillerTest {
     }
 
     @Test
-    void dataFillergetRecords_DayRatingElementsShould_beCorrectDataTypes() throws FileNotFoundException {
+    void dataFillergetRecords_DayRatingElementsShould_beCorrectDataTypes() throws IOException {
         //given
         String firstDateElement = "01.03.2021";
         int firstRTElement = 74;
@@ -51,7 +52,6 @@ class DataFillerTest {
         //given
         File testFile = new File("src/test/resources/TestExcelRatings.xlsx");
         testFile.setWritable(false);
-
 
         //when
         Executable executable = () -> DataFiller.getRecordsFromFile(testFile);

@@ -2,6 +2,7 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -119,9 +120,10 @@ public class MainWindow extends JFrame {
         btn7.addActionListener(e -> {
             try {
                 DataFiller.initDataFromFiles(conf.getDataPath());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "File in use?", JOptionPane.ERROR_MESSAGE);
             }
+
         });
 
         buttonPanel.add(btn1);
