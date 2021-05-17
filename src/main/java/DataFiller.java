@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,12 @@ public class DataFiller{
     public static void initDataFromFiles(String dirName) throws IOException, InvalidFormatException {
         monthlyRatings = new ArrayList<>();
         daysFromAllFiles = new ArrayList<>();
+
+        Path dirPath = new File(dirName).toPath();
+
+
+        if(!Files.exists(dirPath))
+            Files.createDirectories(dirPath);
 
             Files.list(new File(dirName).toPath())
                     .forEach(path -> {

@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
         this.conf = conf;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("TV-Ratings");
+        this.setTitle("TV-Ratings - Files in: " + conf.getDataPath());
         this.setSize(1200, 900);
         ImageIcon tb = new ImageIcon(ReadExcelData.class.getClassLoader().getResource("tb_logo.png"));
         this.setIconImage(tb.getImage());
@@ -132,6 +132,13 @@ public class MainWindow extends JFrame {
         buttonPanel.add(btn5);
         buttonPanel.add(btn6);
         buttonPanel.add(btn7);
+
+        //initial init of data
+        try {
+            DataFiller.initDataFromFiles(conf.getDataPath());
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Problem with File", JOptionPane.ERROR_MESSAGE);
+        }
 
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(chartArea, BorderLayout.CENTER);
