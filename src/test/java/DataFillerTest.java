@@ -1,15 +1,23 @@
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataFillerTest {
+    private String testFilePath = "src/test/resources/TestExcelRatings.xlsx";
+
+    @BeforeEach
+    void makeFileAccesseble(){
+        File testFile = new File(testFilePath);
+        testFile.setWritable(true);
+    }
+
 
     @Test
     void dataFillergetRecords_shouldGenerateAsManyDayrecordsAsDataCollumnsInFile() throws IOException, InvalidFormatException {
@@ -24,7 +32,7 @@ class DataFillerTest {
     }
 
     @Test
-    void dataFillergetRecords_DayRatingElementsShould_beCorrectDataTypes() throws Exception {
+    void dataFillergetRecords_DayRatingElementsShouldChooseCorrectRows() throws Exception {
         //given
         String firstDateElement = "01.03.2021";
         int firstRTElement = 74;
@@ -34,7 +42,7 @@ class DataFillerTest {
 
 
         //when
-        List<DayRecord> days = DataFiller.getRecordsFromFile(new File("src/test/resources/TestExcelRatings.xlsx"));
+        List<DayRecord> days = DataFiller.getRecordsFromFile(new File(testFilePath));
 
         //then
         //assertEquals(dataCollumnsInTestFile, days.stream().count());
@@ -51,7 +59,7 @@ class DataFillerTest {
     @Test
     void dataFillergetRecords_shouldThrowException_whenFileisProthected() {
         //given
-        File testFile = new File("src/test/resources/TestExcelRatings.xlsx");
+        File testFile = new File(testFilePath);
         testFile.setWritable(false);
 
         //when
