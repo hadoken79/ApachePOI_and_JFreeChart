@@ -121,7 +121,7 @@ public class MainWindow extends JFrame {
             try {
                 DataFiller.initDataFromFiles(conf.getDataPath());
             } catch (Exception ex){
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "File in use?", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Problem with File", JOptionPane.ERROR_MESSAGE);
             }
         });
 

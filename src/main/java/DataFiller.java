@@ -40,6 +40,10 @@ public class DataFiller{
         try(Workbook workbook = new XSSFWorkbook(file);) {
             Sheet sheet =  workbook.getSheetAt(1);//Einzeltage D-CH
 
+            String errorStat = validateMACell(workbook);
+                if(errorStat != "")
+                    throw new InvalidFormatException(errorStat);
+
             Row factsRow = sheet.getRow(2);
             Row nrwtRow = sheet.getRow(3);
             Row maRow = sheet.getRow(4);
@@ -89,5 +93,16 @@ public class DataFiller{
         return daysFromAllFiles;
     }
 
+    private static String validateMACell(Workbook workbook){
+        //sometimes sheets are not correctly formatted and MA and VD are interchanged
+        Sheet sheet =  workbook.getSheetAt(1);
+
+        Row maRow = sheet.getRow(4);//this should be MA Cell. Sometimes they are mixed up
+
+        if(!maRow.getCell(0).getStringCellValue().contains("MA"))
+            return "Zelle A5 sollte Marktanteil sein, 'MA' kommt aber nicht im Namen der Spalte vor. \nIst Doc: " + sheet.getSheetName() + " falsch Formattiert?";
+
+        return "";
+    }
 
 }
