@@ -2,8 +2,6 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainWindow extends JFrame {
@@ -62,7 +60,7 @@ public class MainWindow extends JFrame {
         AtomicBoolean toggle3 = new AtomicBoolean(true);
 
         btn1.addActionListener(e -> {
-            ChartPanel topRatings = LineChartHandler.getStrongestDaysRT(DataFiller.getDaysFromAllFiles(), toggle1.get());
+            ChartPanel topRatings = BarChartHandler.getStrongestDaysRT(DataFiller.getDaysFromAllFiles(), toggle1.get());
             toggle1.set(!toggle1.get());
             chartArea.removeAll();
             chartArea.revalidate();
@@ -71,7 +69,7 @@ public class MainWindow extends JFrame {
             this.repaint();
         });
         btn2.addActionListener(e -> {
-            ChartPanel topMa = LineChartHandler.getStrongestDaysMA(DataFiller.getDaysFromAllFiles(), toggle2.get());
+            ChartPanel topMa = BarChartHandler.getStrongestDaysMA(DataFiller.getDaysFromAllFiles(), toggle2.get());
             toggle2.set(!toggle2.get());
             chartArea.removeAll();
             chartArea.revalidate();
@@ -81,7 +79,7 @@ public class MainWindow extends JFrame {
         });
 
         btn3.addActionListener(e -> {
-            ChartPanel topVd = LineChartHandler.getStrongestDaysVD(DataFiller.getDaysFromAllFiles(), toggle3.get());
+            ChartPanel topVd = BarChartHandler.getStrongestDaysVD(DataFiller.getDaysFromAllFiles(), toggle3.get());
             toggle3.set(!toggle3.get());
             chartArea.removeAll();
             chartArea.revalidate();
@@ -91,7 +89,7 @@ public class MainWindow extends JFrame {
         });
 
         btn4.addActionListener(e -> {
-            ChartPanel monthRatings = LineChartHandler.getAvgRatingsChart(DataFiller.getMonthlyRatings());
+            ChartPanel monthRatings = BarChartHandler.getAvgRatingsChart(DataFiller.getMonthlyRatings());
             chartArea.removeAll();
             chartArea.revalidate();
             chartArea.add(monthRatings);
@@ -100,7 +98,7 @@ public class MainWindow extends JFrame {
         });
 
         btn5.addActionListener(e -> {
-            ChartPanel monthRatings = LineChartHandler.getAvgMaChart(DataFiller.getMonthlyRatings());
+            ChartPanel monthRatings = BarChartHandler.getAvgMaChart(DataFiller.getMonthlyRatings());
             chartArea.removeAll();
             chartArea.revalidate();
             chartArea.add(monthRatings);
@@ -109,7 +107,7 @@ public class MainWindow extends JFrame {
         });
 
         btn6.addActionListener(e -> {
-            ChartPanel monthRatings = LineChartHandler.getAvgVdChart(DataFiller.getMonthlyRatings());
+            ChartPanel monthRatings = BarChartHandler.getAvgVdChart(DataFiller.getMonthlyRatings());
             chartArea.removeAll();
             chartArea.revalidate();
             chartArea.add(monthRatings);

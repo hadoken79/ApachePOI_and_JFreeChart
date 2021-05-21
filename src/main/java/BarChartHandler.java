@@ -2,8 +2,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -12,7 +14,7 @@ import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
-public class LineChartHandler {
+public class BarChartHandler {
 
     //-------------------Month-Charts
     public static ChartPanel getAvgRatingsChart(List<MonthRecord> monthlyRatings){
@@ -31,7 +33,7 @@ public class LineChartHandler {
                     objDataset.setValue(monthlyRating.getAvgNrwt(), String.valueOf(monthlyRating.getYear()), monthlyRating.getMonth());
                 });
 
-        //draw linechart
+        //draw barchart
         // TODO: 4/22/2021 validate, if record empty, and then initialize default params
         JFreeChart objChart = ChartFactory.createBarChart(
                 "Ratings",     //Chart title
@@ -43,8 +45,10 @@ public class LineChartHandler {
                 true,             // include tooltips?
                 false // include URLs?
         );
+        //prevent bar from becoming to wide, when only one bar is used
+        JFreeChart fancyChart = limitBarSize(objChart);
 
-        ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+        ChartFrame frame = new ChartFrame("Telebasel Quoten", fancyChart);
 
 
         return frame.getChartPanel();
@@ -79,7 +83,9 @@ public class LineChartHandler {
                 false // include URLs?
         );
 
-        ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+        JFreeChart fancyChart = limitBarSize(objChart);
+
+        ChartFrame frame = new ChartFrame("Telebasel Quoten", fancyChart);
 
 
         return frame.getChartPanel();
@@ -114,8 +120,9 @@ public class LineChartHandler {
                 false // include URLs?
         );
 
+        JFreeChart fancyChart = limitBarSize(objChart);
 
-        ChartFrame frame = new ChartFrame("Telebasel Quoten", objChart);
+        ChartFrame frame = new ChartFrame("Telebasel Quoten", fancyChart);
 
 
 
@@ -328,5 +335,13 @@ public class LineChartHandler {
 
         frame = new ChartFrame("Telebasel Quoten", objChart);
         return frame.getChartPanel();
+    }
+
+    private static JFreeChart limitBarSize(JFreeChart chart){
+        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        BarRenderer br = (BarRenderer) categoryPlot.getRenderer();
+        br.setMaximumBarWidth(.1); // set maximum width to 10% of chart
+
+        return chart;
     }
 }
